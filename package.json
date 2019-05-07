@@ -1,6 +1,10 @@
 {
   "name": "three-js-example",
-  "version": "0.1.0",
+  "repository": {
+    "type" : "git",
+    "url" : "https://github.com/edward93/three-js-example.git"
+  },
+  "version": "0.1.1",
   "private": true,
   "dependencies": {
     "react": "^16.8.6",
