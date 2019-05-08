@@ -1,0 +1,18 @@
+
+
+.display-container {
+  z-index: 2;
+  .layout {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+  }
+  canvas {
+    z-index: 1;
+    display: block;
+    width: 100vw!important;
+    height: 100vh!important;
+  }
+}

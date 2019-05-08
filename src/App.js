@@ -2,6 +2,8 @@ import React from "react";
 import * as THREE from "three";
 import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader";
 
+import "./app.scss";
+
 class App extends React.Component {
   constructor(props) {
     super(props);
@@ -15,21 +17,17 @@ class App extends React.Component {
 
   animate = () => {
     requestAnimationFrame(this.animate);
-    if (this.skull)
-      this.skull.rotation.y += 0.01;
-    // cube.rotation.x += 0.01;
-    // cube.rotation.y += 0.01;
     this.renderer.render(this.scene, this.camera);
   };
 
-  init = () => {
+  initThree = () => {
     window.THREE = THREE;
 
     this.scene = new THREE.Scene();
     this.camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
 
+    // Change camera position
     this.camera.position.z = 3;
-    // this.camera.position.y = 1;
 
     this.renderer = new THREE.WebGLRenderer({ canvas: this.canvas });
     this.renderer.setSize(this.canvas.clientWidth, this.canvas.clientHeight);
@@ -52,13 +50,6 @@ class App extends React.Component {
     );
   };
 
-  addCubeToScene = () => {
-    const geometry = new THREE.BoxGeometry(1, 1, 1);
-    const material = new THREE.MeshBasicMaterial({ color: 0x00ff00 });
-    const cube = new THREE.Mesh(geometry, material);
-    this.scene.add(cube);
-  };
-
   addLight = () => {
     const light = new THREE.AmbientLight(0x404040);
     const dLight = new THREE.DirectionalLight(0xffffff, 5);
@@ -67,16 +58,42 @@ class App extends React.Component {
   };
 
   componentDidMount() {
-    this.init();
+    this.initThree();
+    window.addEventListener("keypress", this.keyPress, false);
 
     this.addLight();
 
-    // this.addCubeToScene();
     this.load3dObject();
   }
 
+  keyPress = event => {
+    switch (event.key) {
+      case "a":
+        this.moveLeft(0.4, this.skull);
+        break;
+      case "d":
+        this.moveRight(0.4, this.skull);
+        break;
+      default:
+        break;
+    }
+  };
+
+  moveRight = (speed = 0.3, obj) => {
+    obj.position.x += speed;
+  };
+
+  moveLeft = (speed = 0.3, obj) => {
+    obj.position.x -= speed;
+  };
+
   render() {
-    return <canvas ref={ref => (this.canvas = ref)} />;
+    return (
+      <div className="display-container">
+        <div className="layout" />
+        <canvas ref={ref => (this.canvas = ref)} />
+      </div>
+    );
   }
 }
 
