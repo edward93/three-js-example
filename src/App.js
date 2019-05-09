@@ -28,7 +28,7 @@ class App extends React.Component {
     window.THREE = THREE;
 
     this.scene = new THREE.Scene();
-    this.scene.background = new THREE.Color("grey");
+    this.scene.background = new THREE.Color("#d8d8d8");
     this.camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
     // Change camera position
     this.camera.position.z = 3;
@@ -40,15 +40,8 @@ class App extends React.Component {
     this.renderer = new THREE.WebGLRenderer({ canvas: this.canvas });
     this.renderer.setSize(this.canvas.clientWidth, this.canvas.clientHeight);
 
-    const mesh = new THREE.Mesh(
-      new THREE.PlaneBufferGeometry(2000, 2000),
-      new THREE.MeshPhongMaterial({ color: 0x999999, depthWrite: false })
-    );
-    mesh.rotation.x = -Math.PI / 2;
-    this.scene.add(mesh);
-
-    const grid = new THREE.GridHelper(200, 40, 0x000000, 0x000000);
-    grid.material.opacity = 0.2;
+    const grid = new THREE.GridHelper(5, 10, "#000", "#9b9b9b");
+    grid.material.opacity = 0.4;
     grid.material.transparent = true;
     this.scene.add(grid);
 
@@ -73,7 +66,7 @@ class App extends React.Component {
 
   addLight = () => {
     const light = new THREE.AmbientLight(0x404040, 3);
-    const dLight = new THREE.DirectionalLight(0xffffff, 5);
+    const dLight = new THREE.DirectionalLight(0xffffff, 3);
     dLight.position.set(1, 1, 1);
     this.scene.add(light);
     this.scene.add(dLight);
