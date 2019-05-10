@@ -4,6 +4,7 @@ import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
 
 import "./app.scss";
+const G = 9800;
 
 class App extends React.Component {
   constructor(props) {
@@ -14,6 +15,10 @@ class App extends React.Component {
     this.renderer = undefined;
     this.controls = undefined;
 
+    this.clock = new THREE.Clock();
+    this.time = undefined;
+    this.deltaTime = undefined;
+
     // Object in scene
     this.skull = undefined;
   }
@@ -22,6 +27,14 @@ class App extends React.Component {
     requestAnimationFrame(this.animate);
     this.controls.update();
     this.renderer.render(this.scene, this.camera);
+    this.time = this.clock.getElapsedTime();
+    this.deltaTime = this.clock.getDelta();
+  };
+
+  simulateGravity = () => {
+    if (this.skull) {
+      this.skull.position.y -= G * this.deltaTime + 0.5 * G * this.deltaTime * this.deltaTime;
+    }
   };
 
   initThree = () => {
@@ -29,6 +42,7 @@ class App extends React.Component {
 
     this.scene = new THREE.Scene();
     this.scene.background = new THREE.Color("#d8d8d8");
+    // this.scene.add(new THREE.AxesHelper(5));
     this.camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
     // Change camera position
     this.camera.position.z = 3;
