@@ -3,12 +3,16 @@ import * as THREE from "three";
 import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
 
+import Physics from "./engine";
+
 import "./app.scss";
 const G = 9800;
 
 class App extends React.Component {
   constructor(props) {
     super(props);
+    this.physics = new Physics();
+
     this.canvas = undefined;
     this.scene = undefined;
     this.camera = undefined;
@@ -29,6 +33,7 @@ class App extends React.Component {
     this.renderer.render(this.scene, this.camera);
     this.time = this.clock.getElapsedTime();
     this.deltaTime = this.clock.getDelta();
+    this.physics.step(this.deltaTime);
   };
 
   simulateGravity = () => {
@@ -69,6 +74,7 @@ class App extends React.Component {
       obj => {
         this.skull = obj.scene;
         this.skull.position.y = 1;
+        this.physics.addPhysicsObk(this.skull);
         this.scene.add(obj.scene);
       },
       undefined,
