@@ -6,6 +6,8 @@ import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
 import Physics from "./engine";
 
 import "./app.scss";
+window.THREE = THREE;
+
 const G = 9800;
 
 class App extends React.Component {
@@ -31,8 +33,8 @@ class App extends React.Component {
     requestAnimationFrame(this.animate);
     this.controls.update();
     this.renderer.render(this.scene, this.camera);
-    this.time = this.clock.getElapsedTime();
     this.deltaTime = this.clock.getDelta();
+    this.time = this.clock.getElapsedTime();
     this.physics.step(this.deltaTime);
   };
 
@@ -50,8 +52,8 @@ class App extends React.Component {
     // this.scene.add(new THREE.AxesHelper(5));
     this.camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
     // Change camera position
-    this.camera.position.z = 3;
-    this.camera.position.y = 1;
+    this.camera.position.z = 20;
+    this.camera.position.y = 0.5;
     this.controls = new OrbitControls(this.camera);
 
     this.controls.center.set(0, 1, 0);
@@ -73,8 +75,8 @@ class App extends React.Component {
       "models/skull/scene.gltf",
       obj => {
         this.skull = obj.scene;
-        this.skull.position.y = 1;
-        this.physics.addPhysicsObk(this.skull);
+        this.skull.position.y = 10;
+        this.physics.addPhysicsObj(this.skull);
         this.scene.add(obj.scene);
       },
       undefined,
@@ -85,10 +87,10 @@ class App extends React.Component {
   };
 
   addLight = () => {
-    const light = new THREE.AmbientLight(0x404040, 3);
     const dLight = new THREE.DirectionalLight(0xffffff, 3);
     dLight.position.set(1, 1, 1);
-    this.scene.add(light);
+    const hemiLight = new THREE.HemisphereLight("#72a6f9", null, 1);
+    this.scene.add(hemiLight);
     this.scene.add(dLight);
   };
 
