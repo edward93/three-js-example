@@ -76,7 +76,7 @@ class App extends React.Component {
       obj => {
         this.skull = obj.scene;
         this.skull.position.y = 10;
-        this.physics.addPhysicsObj(this.skull);
+        // this.physics.addPhysicsObj(this.skull);
         this.scene.add(obj.scene);
       },
       undefined,
